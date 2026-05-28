@@ -1,0 +1,17 @@
+{
+  "detail-type": "AWS API Call via CloudTrail",
+  "source": "aws.ec2",
+  "detail": {
+    "eventSource": "ec2.amazonaws.com",
+    "eventName": "RunInstances",
+    "responseElements": {
+      "instancesSet": {
+        "items": [
+          {
+            "instanceId": "i-00000000000000000"
+          }
+        ]
+      }
+    }
+  }
+}

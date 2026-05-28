@@ -1,0 +1,56 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "AWS: SSO login codex-admin",
+      "type": "shell",
+      "command": "aws sso login --profile codex-admin",
+      "problemMatcher": []
+    },
+    {
+      "label": "AWS: SAM build",
+      "type": "shell",
+      "command": "sam build --template-file aws-lambda-scanner/template.yaml",
+      "problemMatcher": []
+    },
+    {
+      "label": "AWS: SAM guided deploy",
+      "type": "shell",
+      "command": "sam deploy --guided --template-file aws-lambda-scanner/template.yaml",
+      "dependsOn": "AWS: SAM build",
+      "problemMatcher": []
+    },
+    {
+      "label": "Azure: Login",
+      "type": "shell",
+      "command": "az login",
+      "problemMatcher": []
+    },
+    {
+      "label": "Azure Functions: Run locally",
+      "type": "shell",
+      "command": "func start",
+      "options": {
+        "cwd": "${workspaceFolder}\\azure-function-enforcer"
+      },
+      "isBackground": true,
+      "problemMatcher": []
+    },
+    {
+      "label": "Git: Status",
+      "type": "shell",
+      "command": "git status --short --branch",
+      "problemMatcher": []
+    },
+    {
+      "type": "func",
+      "label": "func: host start",
+      "command": "host start",
+      "problemMatcher": "$func-powershell-watch",
+      "isBackground": true,
+      "options": {
+        "cwd": "${workspaceFolder}/azure-function-enforcer"
+      }
+    }
+  ]
+}

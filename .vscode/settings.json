@@ -1,0 +1,16 @@
+{
+  "editor.formatOnSave": true,
+  "files.trimTrailingWhitespace": true,
+  "files.insertFinalNewline": true,
+  "python.defaultInterpreterPath": "${workspaceFolder}\\.venv\\Scripts\\python.exe",
+  "python.analysis.typeCheckingMode": "basic",
+  "powershell.codeFormatting.autoCorrectAliases": true,
+  "powershell.codeFormatting.useConstantStrings": true,
+  "yaml.schemas": {
+    "https://json.schemastore.org/aws-sam.json": "aws-lambda-scanner/template.yaml"
+  },
+  "azureFunctions.deploySubpath": "azure-function-enforcer",
+  "azureFunctions.projectLanguage": "PowerShell",
+  "azureFunctions.projectRuntime": "~4",
+  "debug.internalConsoleOptions": "neverOpen"
+}

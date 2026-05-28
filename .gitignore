@@ -1,0 +1,45 @@
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+venv/
+
+# Azure Functions local files
+local.settings.json
+bin/
+obj/
+.python_packages/
+
+# AWS SAM/CDK/build artifacts
+.aws-sam/
+cdk.out/
+
+# Terraform/IaC local state
+.terraform/
+*.tfstate
+*.tfstate.*
+crash.log
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+.terraform.lock.hcl
+
+# Secrets and local credentials
+.env
+*.pem
+*.key
+*.pfx
+*.p12
+*.publishsettings
+aws-exports.*
+
+# Evidence exports can contain account/subscription IDs. Commit only redacted copies.
+evidence/raw/
+evidence/**/*.raw.*
+
+# OS/editor
+.DS_Store
+Thumbs.db
+*.swp

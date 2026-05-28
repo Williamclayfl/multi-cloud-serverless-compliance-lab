@@ -1,0 +1,20 @@
+{
+  "schemaId": "azureMonitorCommonAlertSchema",
+  "data": {
+    "essentials": {
+      "alertRule": "nsg-security-rule-write",
+      "severity": "Sev2",
+      "signalType": "Activity Log",
+      "monitorCondition": "Fired",
+      "monitoringService": "Activity Log - Administrative",
+      "alertTargetIDs": [
+        "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg-compliance-lab/providers/Microsoft.Network/networkSecurityGroups/nsg-lab-01/securityRules/open-rdp"
+      ]
+    },
+    "alertContext": {
+      "authorization": {
+        "scope": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg-compliance-lab/providers/Microsoft.Network/networkSecurityGroups/nsg-lab-01/securityRules/open-rdp"
+      }
+    }
+  }
+}
