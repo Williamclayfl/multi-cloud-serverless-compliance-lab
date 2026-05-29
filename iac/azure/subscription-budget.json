@@ -1,0 +1,81 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2018-05-01/subscriptionDeploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "budgetName": {
+      "type": "string",
+      "defaultValue": "lab-monthly-budget"
+    },
+    "amount": {
+      "type": "int",
+      "defaultValue": 25
+    },
+    "startDate": {
+      "type": "string"
+    },
+    "endDate": {
+      "type": "string"
+    },
+    "contactEmails": {
+      "type": "array",
+      "metadata": {
+        "description": "Email addresses that receive budget alerts."
+      }
+    }
+  },
+  "resources": [
+    {
+      "type": "Microsoft.Consumption/budgets",
+      "apiVersion": "2023-05-01",
+      "name": "[parameters('budgetName')]",
+      "properties": {
+        "category": "Cost",
+        "amount": "[parameters('amount')]",
+        "timeGrain": "Monthly",
+        "filter": {},
+        "timePeriod": {
+          "startDate": "[parameters('startDate')]",
+          "endDate": "[parameters('endDate')]"
+        },
+        "notifications": {
+          "Actual_50_Percent": {
+            "enabled": true,
+            "operator": "GreaterThanOrEqualTo",
+            "threshold": 50,
+            "thresholdType": "Actual",
+            "contactEmails": "[parameters('contactEmails')]",
+            "contactRoles": [],
+            "contactGroups": []
+          },
+          "Actual_80_Percent": {
+            "enabled": true,
+            "operator": "GreaterThanOrEqualTo",
+            "threshold": 80,
+            "thresholdType": "Actual",
+            "contactEmails": "[parameters('contactEmails')]",
+            "contactRoles": [],
+            "contactGroups": []
+          },
+          "Actual_100_Percent": {
+            "enabled": true,
+            "operator": "GreaterThanOrEqualTo",
+            "threshold": 100,
+            "thresholdType": "Actual",
+            "contactEmails": "[parameters('contactEmails')]",
+            "contactRoles": [],
+            "contactGroups": []
+          },
+          "Forecasted_50_Percent": {
+            "enabled": true,
+            "operator": "GreaterThanOrEqualTo",
+            "threshold": 50,
+            "thresholdType": "Forecasted",
+            "contactEmails": "[parameters('contactEmails')]",
+            "contactRoles": [],
+            "contactGroups": []
+          }
+        }
+      }
+    }
+  ]
+}

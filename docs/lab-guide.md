@@ -39,6 +39,8 @@ Create or update the subscription-scoped Azure budget:
 .\scripts\create-azure-subscription-budget.ps1 -ContactEmails "you@example.com" -Amount 25
 ```
 
+The default budget name is `lab-subscription-monthly-budget`. If a budget already exists with a different time grain, Azure requires a new budget name or delete/recreate of the old budget.
+
 ## Phase 2: AWS Scanner
 
 1. Sign in:
