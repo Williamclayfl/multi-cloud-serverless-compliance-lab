@@ -1,5 +1,9 @@
 param()
 
+$machinePath = [Environment]::GetEnvironmentVariable('Path', 'Machine')
+$userPath = [Environment]::GetEnvironmentVariable('Path', 'User')
+$env:Path = @($machinePath, $userPath, $env:Path) -join ';'
+
 $commands = @(
     @{ Name = 'git'; Purpose = 'version control' },
     @{ Name = 'code'; Purpose = 'Visual Studio Code command line' },
