@@ -33,6 +33,12 @@ az group create --name rg-mc-compliance-lab-eastus --location eastus
 
 Use `.env.example` as the local reference for non-secret lab names and regions.
 
+Create or update the subscription-scoped Azure budget:
+
+```powershell
+.\scripts\create-azure-subscription-budget.ps1 -ContactEmails "you@example.com" -Amount 25
+```
+
 ## Phase 2: AWS Scanner
 
 1. Sign in:
