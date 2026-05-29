@@ -23,6 +23,16 @@ Run:
 4. Create or confirm the Azure resource group that will hold lab VNets and NSGs.
 5. Document the corporate-approved test source prefix in `SANCTIONED_SOURCE_PREFIX`.
 
+Current Azure lab defaults:
+
+```powershell
+az login --tenant 283c7359-8291-42fe-ace3-507da2b4e714 --use-device-code
+az account set --subscription "Multi-Cloud Compliance Lab"
+az group create --name rg-mc-compliance-lab-eastus --location eastus
+```
+
+Use `.env.example` as the local reference for non-secret lab names and regions.
+
 ## Phase 2: AWS Scanner
 
 1. Sign in:
