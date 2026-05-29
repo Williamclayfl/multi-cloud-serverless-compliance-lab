@@ -13,6 +13,7 @@ obj/
 
 # AWS SAM/CDK/build artifacts
 .aws-sam/
+samconfig.toml
 cdk.out/
 
 # Terraform/IaC local state

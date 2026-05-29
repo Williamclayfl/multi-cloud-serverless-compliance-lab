@@ -53,7 +53,7 @@ aws sso login --profile codex-admin
 
 ```powershell
 sam build --template-file aws-lambda-scanner/template.yaml
-sam deploy --guided --template-file aws-lambda-scanner/template.yaml
+sam deploy --template-file .aws-sam/build/template.yaml --stack-name mc-compliance-aws-scanner --region us-east-1 --profile codex-admin --capabilities CAPABILITY_IAM --resolve-s3 --no-confirm-changeset --no-fail-on-empty-changeset
 ```
 
 3. Create lab-only S3 buckets and EC2 test instances.
