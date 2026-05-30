@@ -26,8 +26,10 @@ Run:
 Current Azure lab defaults:
 
 ```powershell
-az login --tenant 283c7359-8291-42fe-ace3-507da2b4e714 --use-device-code
-az account set --subscription "Multi-Cloud Compliance Lab"
+$env:AZURE_TENANT_ID = "<your-tenant-id>"
+$env:AZURE_SUBSCRIPTION_ID = "<your-subscription-id>"
+az login --tenant $env:AZURE_TENANT_ID --use-device-code --subscription $env:AZURE_SUBSCRIPTION_ID
+az account set --subscription $env:AZURE_SUBSCRIPTION_ID
 az group create --name rg-mc-compliance-lab-eastus --location eastus
 ```
 
@@ -65,23 +67,36 @@ sam deploy --template-file .aws-sam/build/template.yaml --stack-name mc-complian
 1. Sign in:
 
 ```powershell
-az login
+$env:AZURE_TENANT_ID = "<your-tenant-id>"
+$env:AZURE_SUBSCRIPTION_ID = "<your-subscription-id>"
+az login --tenant $env:AZURE_TENANT_ID --use-device-code --subscription $env:AZURE_SUBSCRIPTION_ID
+az account set --subscription $env:AZURE_SUBSCRIPTION_ID
 ```
 
-2. Create a PowerShell Function App using VS Code's Azure Functions extension.
-3. Deploy `azure-function-enforcer`.
-4. Enable the Function App system-assigned managed identity.
-5. Assign `Network Contributor` to that identity scoped to the lab resource group.
-6. Create an Azure Monitor Activity Log alert for NSG security rule writes.
-7. Route the alert to an Action Group webhook pointing at:
+2. Review the deployment plan:
 
-```text
-https://<function-app>.azurewebsites.net/api/enforce-nsg?code=<function-key>
+```powershell
+.\scripts\deploy-azure-function-enforcer.ps1
 ```
 
-8. Enable the common alert schema for the webhook action.
-9. Create or modify a lab NSG rule that allows inbound `22` or `3389` from `0.0.0.0/0`.
-10. Verify Application Insights traces contain `POLICY ENFORCED`.
+3. Deploy the Function App, managed identity, resource-group-scoped `Network Contributor` assignment, Action Group webhook, and Activity Log alerts:
+
+```powershell
+.\scripts\deploy-azure-function-enforcer.ps1 -Execute
+```
+
+The script creates the Function App on the Windows Consumption plan so PowerShell managed dependencies can install `Az.Accounts` and `Az.Network` from `requirements.psd1`. The webhook uses the common alert schema and the function key is never written to source files.
+
+4. Create the isolated lab VNets and intentionally open NSG rules:
+
+```powershell
+.\scripts\create-azure-dummy-nsgs.ps1
+.\scripts\create-azure-dummy-nsgs.ps1 -Execute
+```
+
+5. Verify Application Insights traces contain `POLICY ENFORCED`.
+
+The Azure implementation follows the Microsoft Learn guidance that PowerShell Functions use `function.json` bindings, `Push-OutputBinding` for HTTP responses, managed dependencies via `requirements.psd1`, `Set-AzNetworkSecurityRuleConfig` or equivalent NSG object updates for custom security rules, and Activity Log alerts routed through Action Groups with the common alert schema.
 
 ## Phase 4: Metrics
 
@@ -96,7 +111,7 @@ Add `-Execute` only after confirming the buckets are empty lab resources and pub
 Azure:
 
 ```powershell
-.\scripts\generate-azure-chaos.ps1 -ResourceGroupName rg-compliance-lab -NetworkSecurityGroupName nsg-lab-01 -Iterations 25
+.\scripts\generate-azure-chaos.ps1 -ResourceGroupName rg-mc-compliance-lab-eastus -NetworkSecurityGroupName nsg-mc-compliance-lab-01 -Iterations 25
 ```
 
 Add `-Execute` only after confirming this NSG is isolated to the lab.

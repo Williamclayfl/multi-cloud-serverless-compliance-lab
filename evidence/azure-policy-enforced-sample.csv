@@ -1,0 +1,6 @@
+timestamp_utc,operation,resource_group,network_security_group,rule_name,remediation_mode,sanctioned_source_prefix
+2026-05-30T00:02:31Z,POLICY ENFORCED,rg-mc-compliance-lab-eastus,nsg-mc-compliance-lab-01,lab-open-rdp,RewriteSource,203.0.113.10/32
+2026-05-30T00:02:31Z,POLICY ENFORCED,rg-mc-compliance-lab-eastus,nsg-mc-compliance-lab-02,lab-open-ssh,RewriteSource,203.0.113.10/32
+2026-05-30T00:02:31Z,POLICY ENFORCED,rg-mc-compliance-lab-eastus,nsg-mc-compliance-lab-03,lab-open-rdp,RewriteSource,203.0.113.10/32
+2026-05-30T00:02:31Z,POLICY ENFORCED,rg-mc-compliance-lab-eastus,nsg-mc-compliance-lab-04,lab-open-ssh,RewriteSource,203.0.113.10/32
+2026-05-30T00:02:31Z,POLICY ENFORCED,rg-mc-compliance-lab-eastus,nsg-mc-compliance-lab-05,lab-open-rdp,RewriteSource,203.0.113.10/32

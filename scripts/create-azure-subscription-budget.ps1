@@ -1,5 +1,5 @@
 param(
-    [string]$SubscriptionId = 'ee749a4a-0ebf-4154-8c2a-ffd0daaf83f8',
+    [string]$SubscriptionId = $env:AZURE_SUBSCRIPTION_ID,
     [string]$BudgetName = 'lab-subscription-monthly-budget',
     [decimal]$Amount = 25,
     [Parameter(Mandatory = $true)][string[]]$ContactEmails,
@@ -16,6 +16,10 @@ $env:Path = @($machinePath, $userPath, $env:Path) -join ';'
 $az = Get-Command az -ErrorAction Stop
 $templateFile = Join-Path $PSScriptRoot '..\iac\azure\subscription-budget.json'
 $parametersFile = Join-Path ([System.IO.Path]::GetTempPath()) "subscription-budget-$([guid]::NewGuid()).parameters.json"
+
+if (-not $SubscriptionId) {
+    throw 'Pass -SubscriptionId or set AZURE_SUBSCRIPTION_ID before running this script.'
+}
 
 Write-Host "Setting Azure subscription context to $SubscriptionId"
 & $az.Source account set --subscription $SubscriptionId

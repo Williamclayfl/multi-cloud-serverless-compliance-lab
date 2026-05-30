@@ -45,6 +45,8 @@ scripts/                  Prereq checks and guarded metric-generation scripts
 evidence/                 Redacted screenshots and CSV exports
 ```
 
+Current sample evidence includes `evidence/azure-policy-enforced-sample.csv`, a redacted Application Insights export showing five NSG rules remediated from Internet-open SSH/RDP to the sanctioned lab source prefix.
+
 ## VS Code Setup
 
 Open this folder in VS Code:
@@ -60,6 +62,14 @@ Check local tools:
 ```powershell
 .\scripts\check-prereqs.ps1
 ```
+
+Useful VS Code tasks:
+
+- `AWS: SSO login codex-admin`
+- `AWS: SAM build`
+- `Azure: Deploy NSG enforcer dry run`
+- `Azure: Create dummy NSGs dry run`
+- `Azure Functions: Run locally`
 
 ## Cloud+ Alignment
 

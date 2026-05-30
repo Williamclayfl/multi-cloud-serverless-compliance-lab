@@ -1,0 +1,133 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "actionGroupName": {
+      "type": "string",
+      "defaultValue": "ag-mc-compliance-nsg-enforcer"
+    },
+    "functionWebhookUrl": {
+      "type": "secureString"
+    },
+    "tags": {
+      "type": "object",
+      "defaultValue": {
+        "Project": "MultiCloudServerlessComplianceLab",
+        "LabResource": "true",
+        "ManagedBy": "Codex"
+      }
+    }
+  },
+  "variables": {
+    "securityRuleAlertName": "alert-nsg-security-rule-write",
+    "nsgAlertName": "alert-nsg-write"
+  },
+  "resources": [
+    {
+      "type": "Microsoft.Insights/actionGroups",
+      "apiVersion": "2022-06-01",
+      "name": "[parameters('actionGroupName')]",
+      "location": "Global",
+      "tags": "[parameters('tags')]",
+      "properties": {
+        "groupShortName": "nsgpol",
+        "enabled": true,
+        "webhookReceivers": [
+          {
+            "name": "enforce-nsg",
+            "serviceUri": "[parameters('functionWebhookUrl')]",
+            "useCommonAlertSchema": true
+          }
+        ]
+      }
+    },
+    {
+      "type": "Microsoft.Insights/activityLogAlerts",
+      "apiVersion": "2020-10-01",
+      "name": "[variables('securityRuleAlertName')]",
+      "location": "Global",
+      "tags": "[parameters('tags')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.Insights/actionGroups', parameters('actionGroupName'))]"
+      ],
+      "properties": {
+        "description": "Invoke the NSG enforcer when a custom NSG security rule is created or modified.",
+        "enabled": true,
+        "scopes": [
+          "[resourceGroup().id]"
+        ],
+        "condition": {
+          "allOf": [
+            {
+              "field": "category",
+              "equals": "Administrative"
+            },
+            {
+              "field": "resourceProvider",
+              "equals": "Microsoft.Network"
+            },
+            {
+              "field": "operationName",
+              "equals": "Microsoft.Network/networkSecurityGroups/securityRules/write"
+            },
+            {
+              "field": "status",
+              "equals": "Succeeded"
+            }
+          ]
+        },
+        "actions": {
+          "actionGroups": [
+            {
+              "actionGroupId": "[resourceId('Microsoft.Insights/actionGroups', parameters('actionGroupName'))]"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "type": "Microsoft.Insights/activityLogAlerts",
+      "apiVersion": "2020-10-01",
+      "name": "[variables('nsgAlertName')]",
+      "location": "Global",
+      "tags": "[parameters('tags')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.Insights/actionGroups', parameters('actionGroupName'))]"
+      ],
+      "properties": {
+        "description": "Invoke the NSG enforcer when an NSG is updated directly.",
+        "enabled": true,
+        "scopes": [
+          "[resourceGroup().id]"
+        ],
+        "condition": {
+          "allOf": [
+            {
+              "field": "category",
+              "equals": "Administrative"
+            },
+            {
+              "field": "resourceProvider",
+              "equals": "Microsoft.Network"
+            },
+            {
+              "field": "operationName",
+              "equals": "Microsoft.Network/networkSecurityGroups/write"
+            },
+            {
+              "field": "status",
+              "equals": "Succeeded"
+            }
+          ]
+        },
+        "actions": {
+          "actionGroups": [
+            {
+              "actionGroupId": "[resourceId('Microsoft.Insights/actionGroups', parameters('actionGroupName'))]"
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

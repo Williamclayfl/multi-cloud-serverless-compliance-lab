@@ -27,6 +27,18 @@
       "problemMatcher": []
     },
     {
+      "label": "Azure: Deploy NSG enforcer dry run",
+      "type": "shell",
+      "command": ".\\scripts\\deploy-azure-function-enforcer.ps1",
+      "problemMatcher": []
+    },
+    {
+      "label": "Azure: Create dummy NSGs dry run",
+      "type": "shell",
+      "command": ".\\scripts\\create-azure-dummy-nsgs.ps1",
+      "problemMatcher": []
+    },
+    {
       "label": "Azure Functions: Run locally",
       "type": "shell",
       "command": "func start",

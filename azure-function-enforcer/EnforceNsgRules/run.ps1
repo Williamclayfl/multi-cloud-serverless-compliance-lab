@@ -11,7 +11,9 @@ function Write-PolicyEvent {
     )
 
     $payload = @{ message = $Message } + $Fields
-    Write-Information ($payload | ConvertTo-Json -Depth 8 -Compress)
+    $json = $payload | ConvertTo-Json -Depth 8 -Compress
+    Write-Host $json
+    Write-Information $json -InformationAction Continue
 }
 
 function Get-AlertBody {
@@ -177,14 +179,33 @@ try {
                 continue
             }
 
-            if ($remediationMode -eq 'Deny') {
-                $rule.Access = 'Deny'
-            }
-            else {
-                $rule.SourceAddressPrefix = $sanctionedSourcePrefix
-                $rule.SourceAddressPrefixes = @()
+            $sourcePorts = Get-RuleValues -Rule $rule -SingularProperty 'SourcePortRange' -PluralProperty 'SourcePortRanges'
+            $destinationPrefixes = Get-RuleValues -Rule $rule -SingularProperty 'DestinationAddressPrefix' -PluralProperty 'DestinationAddressPrefixes'
+            $sourcePrefixes = if ($remediationMode -eq 'Deny') { $sources } else { @($sanctionedSourcePrefix) }
+            $access = if ($remediationMode -eq 'Deny') { 'Deny' } else { $rule.Access }
+
+            $ruleConfig = @{
+                NetworkSecurityGroup = $nsg
+                Name = $rule.Name
+                Protocol = $rule.Protocol
+                SourcePortRange = [string[]]$sourcePorts
+                DestinationPortRange = [string[]]$ports
+                SourceAddressPrefix = [string[]]$sourcePrefixes
+                DestinationAddressPrefix = [string[]]$destinationPrefixes
+                Access = $access
+                Priority = $rule.Priority
+                Direction = $rule.Direction
             }
 
+            if ($rule.Description) {
+                $ruleConfig.Description = $rule.Description
+            }
+
+            if ($remediationMode -eq 'Deny') {
+                $ruleConfig.Description = 'Lab policy changed this open admin rule to Deny.'
+            }
+
+            Set-AzNetworkSecurityRuleConfig @ruleConfig | Out-Null
             $changed = $true
             $enforcedRules += @{
                 resourceGroupName = $target.ResourceGroupName
