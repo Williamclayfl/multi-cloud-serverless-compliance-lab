@@ -1,0 +1,22 @@
+﻿{
+    "generated_at_utc":  "2026-06-09T01:47:36.9534924Z",
+    "source":  "gcloud logging read",
+    "project_id":  "redacted",
+    "event_timestamp":  "2026-06-09T01:47:25.307600Z",
+    "cloud_run_service":  "gcp-compliance-scanner",
+    "cloud_run_revision":  "gcp-compliance-scanner-00003-lbz",
+    "message":  "COMPLIANCE_VIOLATION",
+    "severity":  "HIGH",
+    "resource_type":  "GCS_BUCKET",
+    "resource_id":  "mc-compliance-public-iam-20260608214710-935645",
+    "event_name":  "storage.setIamPermissions",
+    "public_bindings":  [
+                            {
+                                "members":  [
+                                                "allUsers"
+                                            ],
+                                "role":  "roles/storage.objectViewer"
+                            }
+                        ],
+    "recommendation":  "Remove allUsers/allAuthenticatedUsers grants from the bucket IAM policy."
+}

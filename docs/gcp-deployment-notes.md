@@ -104,4 +104,13 @@ Generate repeatable firewall evidence:
 
 The script creates a temporary firewall rule that allows TCP `22` from `0.0.0.0/0`, waits for the Cloud Run scanner to write a matching `COMPLIANCE_VIOLATION`, saves a redacted JSON sample to `evidence/gcp-cloudrun-firewall-violation-sample.json`, and deletes the temporary rule in a cleanup block.
 
+Generate repeatable public bucket IAM evidence:
+
+```powershell
+.\scripts\generate-gcp-storage-chaos.ps1 -ProjectId mc-compliance-lab-wc-202606 -Location us-east1
+.\scripts\generate-gcp-storage-chaos.ps1 -ProjectId mc-compliance-lab-wc-202606 -Location us-east1 -Execute
+```
+
+The script creates a temporary empty bucket, grants `allUsers` the `roles/storage.objectViewer` role, waits for the Cloud Run scanner to write a matching `COMPLIANCE_VIOLATION`, saves a redacted JSON sample to `evidence/gcp-cloudrun-storage-iam-violation-sample.json`, removes the public IAM binding, and deletes the temporary bucket.
+
 This document intentionally omits personal account details. Keep raw screenshots and exports under `evidence/raw/` until redacted.

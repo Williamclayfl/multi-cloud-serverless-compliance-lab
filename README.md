@@ -83,6 +83,8 @@ Useful VS Code tasks:
 - `GCP: Query scanner logs`
 - `GCP: Generate firewall evidence dry run`
 - `GCP: Generate firewall evidence`
+- `GCP: Generate storage IAM evidence dry run`
+- `GCP: Generate storage IAM evidence`
 
 ## Cloud+ Alignment
 

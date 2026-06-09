@@ -164,6 +164,13 @@ Generate a repeatable redacted firewall evidence sample:
 .\scripts\generate-gcp-chaos.ps1 -ProjectId mc-compliance-lab-wc-202606 -Region us-east1 -Execute
 ```
 
+Generate a repeatable redacted public bucket IAM evidence sample:
+
+```powershell
+.\scripts\generate-gcp-storage-chaos.ps1 -ProjectId mc-compliance-lab-wc-202606 -Location us-east1
+.\scripts\generate-gcp-storage-chaos.ps1 -ProjectId mc-compliance-lab-wc-202606 -Location us-east1 -Execute
+```
+
 ## Phase 4: Metrics
 
 AWS:

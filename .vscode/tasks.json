@@ -85,6 +85,18 @@
       "problemMatcher": []
     },
     {
+      "label": "GCP: Generate storage IAM evidence dry run",
+      "type": "shell",
+      "command": ".\\scripts\\generate-gcp-storage-chaos.ps1 -ProjectId mc-compliance-lab-wc-202606 -Location us-east1",
+      "problemMatcher": []
+    },
+    {
+      "label": "GCP: Generate storage IAM evidence",
+      "type": "shell",
+      "command": ".\\scripts\\generate-gcp-storage-chaos.ps1 -ProjectId mc-compliance-lab-wc-202606 -Location us-east1 -Execute",
+      "problemMatcher": []
+    },
+    {
       "label": "Git: Status",
       "type": "shell",
       "command": "git status --short --branch",
