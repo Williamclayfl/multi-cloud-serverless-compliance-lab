@@ -16,6 +16,22 @@ flowchart LR
         L --> CW
     end
 
+    subgraph GCP["GCP project"]
+        GCS["Cloud Storage IAM changes"]
+        GCEFW["Compute firewall rule writes"]
+        GCEVM["Compute Engine instance creates"]
+        CAL["Cloud Audit Logs"]
+        EA["Eventarc triggers"]
+        CR["Cloud Run scanner"]
+        CL["Cloud Logging evidence"]
+        GCS --> CAL
+        GCEFW --> CAL
+        GCEVM --> CAL
+        CAL --> EA
+        EA --> CR
+        CR --> CL
+    end
+
     subgraph Azure["Azure subscription"]
         NSG["NSG security rule writes"]
         AL["Activity Log"]
@@ -33,17 +49,18 @@ flowchart LR
 
     Repo["GitHub portfolio repo"]
     CW --> Repo
+    CL --> Repo
     AI --> Repo
 ```
 
 ## Design Intent
 
-This lab demonstrates event-driven compliance detection in AWS and active remediation in Azure. It uses serverless services instead of a persistent audit VM to reduce cost and keep the operational surface area small.
+This lab demonstrates event-driven compliance detection in AWS and GCP plus active remediation in Azure. It uses serverless services instead of a persistent audit VM to reduce cost and keep the operational surface area small.
 
 ## Security Boundaries
 
-- Use a dedicated lab account/subscription or dedicated resource groups.
-- Use least-privilege runtime identities for Lambda and Azure Functions.
+- Use a dedicated lab account/project/subscription or dedicated resource groups.
+- Use least-privilege runtime identities for Lambda, Cloud Run, Eventarc, and Azure Functions.
 - Store only redacted evidence in GitHub.
-- Keep public S3 and open NSG rules limited to intentionally empty lab resources.
+- Keep public bucket tests, open firewall rules, and open NSG rules limited to intentionally empty or isolated lab resources.
 - Destroy or lock down lab resources after evidence is collected.

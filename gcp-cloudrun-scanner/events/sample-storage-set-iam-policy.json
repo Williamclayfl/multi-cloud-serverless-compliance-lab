@@ -1,0 +1,14 @@
+{
+  "protoPayload": {
+    "serviceName": "storage.googleapis.com",
+    "methodName": "storage.setIamPermissions",
+    "resourceName": "projects/_/buckets/mc-compliance-lab-public-sample"
+  },
+  "resource": {
+    "type": "gcs_bucket",
+    "labels": {
+      "bucket_name": "mc-compliance-lab-public-sample",
+      "project_id": "mc-compliance-lab-wc-202606"
+    }
+  }
+}

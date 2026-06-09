@@ -49,6 +49,42 @@
       "problemMatcher": []
     },
     {
+      "label": "GCP: Verify active project",
+      "type": "shell",
+      "command": "gcloud config list && gcloud billing projects describe mc-compliance-lab-wc-202606 && gcloud services list --enabled --project mc-compliance-lab-wc-202606",
+      "problemMatcher": []
+    },
+    {
+      "label": "GCP: Deploy Cloud Run scanner dry run",
+      "type": "shell",
+      "command": ".\\scripts\\deploy-gcp-cloudrun-scanner.ps1 -ProjectId mc-compliance-lab-wc-202606 -Region us-east1",
+      "problemMatcher": []
+    },
+    {
+      "label": "GCP: Deploy Cloud Run scanner",
+      "type": "shell",
+      "command": ".\\scripts\\deploy-gcp-cloudrun-scanner.ps1 -ProjectId mc-compliance-lab-wc-202606 -Region us-east1 -Execute",
+      "problemMatcher": []
+    },
+    {
+      "label": "GCP: Query scanner logs",
+      "type": "shell",
+      "command": "gcloud logging read \"resource.type=cloud_run_revision AND resource.labels.service_name=gcp-compliance-scanner AND jsonPayload.message:(COMPLIANCE_SCAN OR COMPLIANCE_VIOLATION)\" --project mc-compliance-lab-wc-202606 --limit 20 --format json",
+      "problemMatcher": []
+    },
+    {
+      "label": "GCP: Generate firewall evidence dry run",
+      "type": "shell",
+      "command": ".\\scripts\\generate-gcp-chaos.ps1 -ProjectId mc-compliance-lab-wc-202606 -Region us-east1",
+      "problemMatcher": []
+    },
+    {
+      "label": "GCP: Generate firewall evidence",
+      "type": "shell",
+      "command": ".\\scripts\\generate-gcp-chaos.ps1 -ProjectId mc-compliance-lab-wc-202606 -Region us-east1 -Execute",
+      "problemMatcher": []
+    },
+    {
       "label": "Git: Status",
       "type": "shell",
       "command": "git status --short --branch",

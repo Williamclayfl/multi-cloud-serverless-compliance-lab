@@ -1,0 +1,14 @@
+{
+  "protoPayload": {
+    "serviceName": "compute.googleapis.com",
+    "methodName": "v1.compute.firewalls.insert",
+    "resourceName": "projects/mc-compliance-lab-wc-202606/global/firewalls/mc-compliance-open-ssh"
+  },
+  "resource": {
+    "type": "gce_firewall_rule",
+    "labels": {
+      "project_id": "mc-compliance-lab-wc-202606",
+      "firewall_rule_id": "mc-compliance-open-ssh"
+    }
+  }
+}

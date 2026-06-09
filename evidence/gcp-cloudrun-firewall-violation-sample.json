@@ -1,0 +1,20 @@
+﻿{
+    "generated_at_utc":  "2026-06-09T00:37:25.7049907Z",
+    "source":  "gcloud logging read",
+    "project_id":  "redacted",
+    "event_timestamp":  "2026-06-09T00:37:10.336810Z",
+    "cloud_run_service":  "gcp-compliance-scanner",
+    "cloud_run_revision":  "gcp-compliance-scanner-00003-lbz",
+    "message":  "COMPLIANCE_VIOLATION",
+    "severity":  "HIGH",
+    "resource_type":  "GCE_FIREWALL_RULE",
+    "resource_id":  "mc-compliance-open-ssh-20260608203655",
+    "event_name":  "v1.compute.firewalls.insert",
+    "open_sensitive_ports":  [
+                                 "22"
+                             ],
+    "source_ranges":  [
+                          "0.0.0.0/0"
+                      ],
+    "recommendation":  "Restrict inbound SSH/RDP source ranges to sanctioned lab prefixes."
+}

@@ -11,6 +11,7 @@ $commands = @(
     @{ Name = 'sam'; Purpose = 'AWS SAM local build/deploy' },
     @{ Name = 'az'; Purpose = 'Azure CLI login and role assignments' },
     @{ Name = 'func'; Purpose = 'Azure Functions Core Tools local run/deploy' },
+    @{ Name = 'gcloud'; Purpose = 'Google Cloud CLI project and Cloud Run deployment' },
     @{ Name = 'gh'; Purpose = 'GitHub CLI repository creation/auth' }
 )
 
@@ -38,4 +39,4 @@ $results | Format-Table -AutoSize
 
 Write-Host ''
 Write-Host 'Install missing tools from official sources before deploying cloud resources.'
-Write-Host 'Recommended: GitHub CLI, Azure CLI, Azure Functions Core Tools, AWS SAM CLI.'
+Write-Host 'Recommended: GitHub CLI, Azure CLI, Azure Functions Core Tools, AWS SAM CLI, Google Cloud CLI.'

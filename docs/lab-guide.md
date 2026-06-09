@@ -7,7 +7,8 @@
 - AWS CLI authenticated with the `codex-admin` SSO profile.
 - AWS SAM CLI for Lambda deployment.
 - Azure CLI and Azure Functions Core Tools.
-- A dedicated AWS lab account and Azure lab resource group.
+- Google Cloud CLI.
+- A dedicated AWS lab account, GCP project, and Azure lab resource group.
 
 Run:
 
@@ -17,7 +18,7 @@ Run:
 
 ## Phase 1: Boundaries And Baseline
 
-1. Create AWS and Azure budgets with alert notifications.
+1. Create AWS, GCP, and Azure budgets with alert notifications.
 2. Confirm the lab is isolated from production data.
 3. Enable AWS CloudTrail management events.
 4. Create or confirm the Azure resource group that will hold lab VNets and NSGs.
@@ -42,6 +43,18 @@ Create or update the subscription-scoped Azure budget:
 ```
 
 The default budget name is `lab-subscription-monthly-budget`. If a budget already exists with a different time grain, Azure requires a new budget name or delete/recreate of the old budget.
+
+Current GCP lab defaults:
+
+```powershell
+$env:GCP_PROJECT_ID = "mc-compliance-lab-wc-202606"
+$env:GCP_PROJECT_NUMBER = "812437223722"
+$env:GCP_REGION = "us-east1"
+$env:GCP_BILLING_ACCOUNT_ID = "<your-billing-account-id>"
+gcloud config set project $env:GCP_PROJECT_ID
+```
+
+The GCP project has billing attached and a project-scoped monthly budget named `gcp-lab-monthly-budget` for 25 USD. It alerts at 50%, 80%, and 100% current spend, plus 50% forecasted spend.
 
 ## Phase 2: AWS Scanner
 
@@ -98,6 +111,59 @@ The script creates the Function App on the Windows Consumption plan so PowerShel
 
 The Azure implementation follows the Microsoft Learn guidance that PowerShell Functions use `function.json` bindings, `Push-OutputBinding` for HTTP responses, managed dependencies via `requirements.psd1`, `Set-AzNetworkSecurityRuleConfig` or equivalent NSG object updates for custom security rules, and Activity Log alerts routed through Action Groups with the common alert schema.
 
+## Phase 3b: GCP Scanner
+
+The GCP implementation is the contingency path for completing the multi-cloud lab while AWS EC2 creation remains blocked at the account-verification layer.
+
+Event flow:
+
+```text
+Cloud Audit Logs -> Eventarc -> Cloud Run service -> Cloud Logging evidence
+```
+
+Initial checks:
+
+- Cloud Storage buckets with public IAM grants.
+- Firewall rules open to `0.0.0.0/0` for SSH or RDP.
+- Compute Engine VMs with external public IPs.
+- Required lab labels on Compute Engine instances.
+
+Enabled APIs:
+
+- `run.googleapis.com`
+- `eventarc.googleapis.com`
+- `eventarcpublishing.googleapis.com`
+- `pubsub.googleapis.com`
+- `logging.googleapis.com`
+- `cloudbuild.googleapis.com`
+- `artifactregistry.googleapis.com`
+- `storage.googleapis.com`
+- `compute.googleapis.com`
+- `cloudresourcemanager.googleapis.com`
+- `iam.googleapis.com`
+
+Deploy the scanner:
+
+```powershell
+.\scripts\deploy-gcp-cloudrun-scanner.ps1 -ProjectId mc-compliance-lab-wc-202606 -Region us-east1
+.\scripts\deploy-gcp-cloudrun-scanner.ps1 -ProjectId mc-compliance-lab-wc-202606 -Region us-east1 -Execute
+```
+
+The script creates two user-managed service accounts, a project custom role for read-only scanner permissions, the private Cloud Run service, and Eventarc triggers for Storage IAM changes, Compute firewall rule writes, and Compute instance creates.
+
+Verify Cloud Logging evidence:
+
+```powershell
+gcloud logging read "resource.type=cloud_run_revision AND resource.labels.service_name=gcp-compliance-scanner AND jsonPayload.message:(COMPLIANCE_SCAN OR COMPLIANCE_VIOLATION)" --project mc-compliance-lab-wc-202606 --limit 20 --format json
+```
+
+Generate a repeatable redacted firewall evidence sample:
+
+```powershell
+.\scripts\generate-gcp-chaos.ps1 -ProjectId mc-compliance-lab-wc-202606 -Region us-east1
+.\scripts\generate-gcp-chaos.ps1 -ProjectId mc-compliance-lab-wc-202606 -Region us-east1 -Execute
+```
+
 ## Phase 4: Metrics
 
 AWS:
@@ -121,6 +187,7 @@ Add `-Execute` only after confirming this NSG is isolated to the lab.
 Export redacted evidence only:
 
 - CloudWatch Logs query results showing `COMPLIANCE_SCAN` and `COMPLIANCE_VIOLATION`.
+- Cloud Logging query results showing GCP compliance scans and violations.
 - Application Insights traces showing `POLICY ENFORCED`.
 - Screenshots of budget alerts, IAM/RBAC scoping, and serverless deployment resources.
 

@@ -35,6 +35,8 @@ override.tf.json
 *.p12
 *.publishsettings
 aws-exports.*
+application_default_credentials.json
+credentials.db
 
 # Evidence exports can contain account/subscription IDs. Commit only redacted copies.
 evidence/raw/
