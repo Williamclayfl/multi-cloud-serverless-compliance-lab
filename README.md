@@ -41,6 +41,8 @@ flowchart LR
 - IAM roles and Azure managed identities keep credentials out of code.
 - Serverless execution avoids persistent audit infrastructure.
 
+See `docs/provider-pivot.md` for the AWS EC2 account-verification constraint and the resulting GCP pivot.
+
 ## Repository Structure
 
 ```text
