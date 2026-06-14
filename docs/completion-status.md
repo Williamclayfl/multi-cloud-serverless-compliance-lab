@@ -20,7 +20,7 @@ AWS:
 - No running, stopped, pending, or stopping lab EC2 instances were found with the project tag filter.
 - The AWS scanner stack remains deployed for evidence.
 - The CloudTrail S3 bucket remains because CloudTrail delivery depends on it.
-- Lab S3 buckets from earlier S3 evidence generation remain. Review and delete them only after final screenshots/evidence are captured.
+- Lab S3 buckets from earlier S3 evidence generation remain. Review and delete them when they are no longer needed.
 
 GCP:
 
@@ -39,9 +39,3 @@ Azure:
 - Five lab NSGs remain for evidence.
 - NSG rules were checked and are no longer open to `0.0.0.0/0`; they point to the lab placeholder source prefix `203.0.113.10/32`.
 - Azure budget guardrails remain configured.
-
-## Remaining Manual Evidence Capture
-
-Before submitting or publishing the portfolio, capture redacted screenshots listed in `evidence/README.md`.
-
-Do not commit raw console screenshots until account IDs, subscription IDs, billing identifiers, service account emails, source IPs, and personal identifiers are redacted.

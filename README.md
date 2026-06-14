@@ -53,7 +53,7 @@ See `docs/provider-pivot.md` for the AWS EC2 account-verification constraint and
 | GCP | Public Cloud Storage IAM detection | Validated | `evidence/gcp-cloudrun-storage-iam-violation-sample.json` |
 | Azure | Internet-open SSH/RDP NSG remediation | Validated | `evidence/azure-policy-enforced-sample.csv` |
 
-See `evidence/README.md` for the evidence inventory and final screenshot/export checklist.
+See `evidence/README.md` for the committed evidence inventory.
 See `docs/completion-status.md` for the final cleanup and cost-check summary.
 
 ## Repository Structure
@@ -64,7 +64,7 @@ azure-function-enforcer/  PowerShell Azure Function and webhook sample payload
 gcp-cloudrun-scanner/     Python Cloud Run scanner, Dockerfile, sample audit events
 docs/                     Architecture, lab guide, and security notes
 scripts/                  Prereq checks and guarded metric-generation scripts
-evidence/                 Redacted screenshots and CSV exports
+evidence/                 Redacted evidence exports
 ```
 
 Current sample evidence includes redacted GCP Cloud Logging JSON exports and `evidence/azure-policy-enforced-sample.csv`, a redacted Application Insights export showing five NSG rules remediated from Internet-open SSH/RDP to the sanctioned lab source prefix.

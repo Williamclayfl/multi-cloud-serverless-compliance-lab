@@ -196,6 +196,6 @@ Export redacted evidence only:
 - CloudWatch Logs query results showing `COMPLIANCE_SCAN` and `COMPLIANCE_VIOLATION`.
 - Cloud Logging query results showing GCP compliance scans and violations.
 - Application Insights traces showing `POLICY ENFORCED`.
-- Screenshots of budget alerts, IAM/RBAC scoping, and serverless deployment resources.
+- Redacted evidence of budget alerts, IAM/RBAC scoping, and serverless deployment resources.
 
 Never commit raw account IDs, subscription IDs, access keys, function keys, IP allowlists, or personal email addresses.

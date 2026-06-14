@@ -113,4 +113,4 @@ Generate repeatable public bucket IAM evidence:
 
 The script creates a temporary empty bucket, grants `allUsers` the `roles/storage.objectViewer` role, waits for the Cloud Run scanner to write a matching `COMPLIANCE_VIOLATION`, saves a redacted JSON sample to `evidence/gcp-cloudrun-storage-iam-violation-sample.json`, removes the public IAM binding, and deletes the temporary bucket.
 
-This document intentionally omits personal account details. Keep raw screenshots and exports under `evidence/raw/` until redacted.
+This document intentionally omits personal account details. Keep raw provider exports under `evidence/raw/` until redacted.
