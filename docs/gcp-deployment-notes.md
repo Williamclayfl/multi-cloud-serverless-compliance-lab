@@ -53,7 +53,7 @@ The GCP scanner uses Cloud Audit Logs routed through Eventarc to a private Cloud
 Service:
 
 - Cloud Run service: `gcp-compliance-scanner`
-- Cloud Run URL: `https://gcp-compliance-scanner-d4373bm3na-ue.a.run.app`
+- Cloud Run URL: private service URL, redacted
 - Latest validated revision: `gcp-compliance-scanner-00003-lbz`
 - Runtime service account: `gcp-compliance-scanner`
 - Eventarc trigger service account: `gcp-compliance-eventarc`
