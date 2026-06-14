@@ -43,6 +43,19 @@ flowchart LR
 
 See `docs/provider-pivot.md` for the AWS EC2 account-verification constraint and the resulting GCP pivot.
 
+## Validated Controls
+
+| Provider | Control | Status | Evidence |
+| --- | --- | --- | --- |
+| AWS | S3 public bucket policy detection | Validated | CloudWatch `COMPLIANCE_VIOLATION` |
+| AWS | EC2 launch scanning | Blocked by provider account verification after dry-run viability | CloudTrail `Client.Blocked` event |
+| GCP | Internet-open SSH firewall detection | Validated | `evidence/gcp-cloudrun-firewall-violation-sample.json` |
+| GCP | Public Cloud Storage IAM detection | Validated | `evidence/gcp-cloudrun-storage-iam-violation-sample.json` |
+| Azure | Internet-open SSH/RDP NSG remediation | Validated | `evidence/azure-policy-enforced-sample.csv` |
+
+See `evidence/README.md` for the evidence inventory and final screenshot/export checklist.
+See `docs/completion-status.md` for the final cleanup and cost-check summary.
+
 ## Repository Structure
 
 ```text
@@ -54,7 +67,7 @@ scripts/                  Prereq checks and guarded metric-generation scripts
 evidence/                 Redacted screenshots and CSV exports
 ```
 
-Current sample evidence includes `evidence/azure-policy-enforced-sample.csv`, a redacted Application Insights export showing five NSG rules remediated from Internet-open SSH/RDP to the sanctioned lab source prefix.
+Current sample evidence includes redacted GCP Cloud Logging JSON exports and `evidence/azure-policy-enforced-sample.csv`, a redacted Application Insights export showing five NSG rules remediated from Internet-open SSH/RDP to the sanctioned lab source prefix.
 
 ## VS Code Setup
 
